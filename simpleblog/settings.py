@@ -40,12 +40,21 @@ INSTALLED_APPS = [
     'bookShop',
 
     #third-party-apps
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
-    'django-cors-headers'
+    # 'django-cors-headers'
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # or the URL of your React app
+]
+
+
+AUTH_USER_MODEL = 'bookShop.CustomUser'
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,12 +62,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django-cors-headers'
 ]
 
 ROOT_URLCONF = 'simpleblog.urls'
-
-AUTH_USER_MODEL = 'bookShop.CustomUser'
 
 TEMPLATES = [
     {

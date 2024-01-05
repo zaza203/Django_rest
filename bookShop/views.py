@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token 
 from rest_framework.authtoken.views import obtain_auth_token
@@ -27,8 +28,19 @@ def custom_login(request):
         return Response({'error': 'Invalid credentials'}, status=400)
 
 class BookList(generics.ListAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+    # queryset = Book.objects.all()
+    # serializer_class = BookSerializer
+    # permission_classes = [IsAuthenticated]
+
+    # def list(self, request, *args, **kwargs):
+    #     queryset = self.get_queryset()
+    #     serializer = self.get_serializer(queryset, many = True)
+    #     return JsonResponse(serializer.data, safe=False)
+    
+    def get(self, requesr, format = None):
+        books = Book.objects.all()
+        serializer = BookSerializer(books, many = True)
+        return Response(serializer.data)
 
 class BookDetail(generics.RetrieveAPIView):
     queryset = Book.objects.all()
